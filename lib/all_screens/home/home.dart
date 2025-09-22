@@ -1397,7 +1397,9 @@ class _ModuleCardState extends State<ModuleCard>
     );
   }
 }
------------------------------*/
+-----------------------------
+-------------------------------
+ */
 import 'package:flutter/material.dart';
 import '../schemes/SchemesPage.dart';
 import '../schemes/localization.dart';
