@@ -1,0 +1,42 @@
+name: home1
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+  # 📤 Sharing content
+  share_plus: ^10.0.0
+
+  # 📸 For picking profile photo from camera/gallery
+  image_picker: ^1.1.2
+
+  # 🗺️ Google Maps support
+  google_maps_flutter: ^2.5.0
+
+  # 🎞️ For hostel video playback
+  video_player: ^2.8.3
+
+  # 📷 For hostel image carousel (swipe left-right)
+  carousel_slider: ^5.0.0
+
+  # 🔽 Beautiful searchable dropdown for Karnataka districts
+  dropdown_search: ^6.0.1
+
+  # 🌍 For launching maps, calls, websites
+  url_launcher: ^6.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
