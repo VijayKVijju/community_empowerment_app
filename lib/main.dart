@@ -58,10 +58,7 @@ class _CommunityEmpowermentAppState extends State<CommunityEmpowermentApp> {
         primarySwatch: Colors.deepPurple,
         fontFamily: 'Roboto',
       ),
-      home: HomePage(
-        selectedLanguage: _selectedLanguage,
-        setLanguage: _setLanguage,
-      ),
+      home: const HomePage(),
     );
   }
 }

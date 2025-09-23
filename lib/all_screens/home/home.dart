@@ -1399,11 +1399,14 @@ class _ModuleCardState extends State<ModuleCard>
 }
 -----------------------------
 -------------------------------
- */
+
 import 'package:flutter/material.dart';
+import '../histroy/history_page.dart';
+import '../hostels/explore_page.dart';
+import '../job_searching/job_searching.dart';
+import '../scholarships/scholarship.dart';
 import '../schemes/SchemesPage.dart';
 import '../schemes/localization.dart';
-
 
 class HomePage extends StatefulWidget {
   final String selectedLanguage;
@@ -1433,9 +1436,30 @@ class _HomePageState extends State<HomePage> {
     {'title': 'Community Initiatives', 'icon': Icons.groups},
   ];
 
+  final List<String> mediaItems = [
+    "https://via.placeholder.com/400x200.png?text=Image+1",
+    "https://via.placeholder.com/400x200.png?text=Image+2",
+    "https://via.placeholder.com/400x200.png?text=Video+1",
+  ];
+
+  int currentIndex = 0;
+
+  void _nextMedia() {
+    setState(() {
+      currentIndex = (currentIndex + 1) % mediaItems.length;
+    });
+  }
+
+  void _previousMedia() {
+    setState(() {
+      currentIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    String currentTitle = localizedStrings[widget.selectedLanguage]!['appTitle']!;
+    String currentTitle =
+    localizedStrings[widget.selectedLanguage]!['appTitle']!;
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
@@ -1455,14 +1479,52 @@ class _HomePageState extends State<HomePage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // 🔹 Attractive Grid Options
+              // 🔹 Media carousel with arrows
+              Container(
+                height: 200,
+                margin: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.deepPurple.shade50,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(
+                        mediaItems[currentIndex],
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back_ios,
+                            color: Colors.white),
+                        onPressed: _previousMedia,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_forward_ios,
+                            color: Colors.white),
+                        onPressed: _nextMedia,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // 🔹 Grid modules
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // 2 per row
+                    crossAxisCount: 2,
                     crossAxisSpacing: 14,
                     mainAxisSpacing: 14,
                     childAspectRatio: 1.2,
@@ -1575,7 +1637,30 @@ class _ModuleCardState extends State<ModuleCard>
         onTapUp: (_) => setState(() => _isPressed = false),
         onTapCancel: () => setState(() => _isPressed = false),
         onTap: () {
-          if (widget.title == "Schemes") {
+          if (widget.title == "Scholarships") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ScholarshipPage()),
+            );
+          } else if (widget.title == "Our history") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    HistoryPage(language: widget.selectedLanguage),
+              ),
+            );
+          } else if (widget.title == "Job Searching") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => JobSeekerWizard()),
+            );
+          } else if (widget.title == "Hostel Details") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ExplorePage()),
+            );
+          } else if (widget.title == "Schemes") {
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -1629,6 +1714,340 @@ class _ModuleCardState extends State<ModuleCard>
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+-----------------------*/
+import 'package:flutter/material.dart';
+import '../community_initiatives/community_initiatives.dart';
+import '../contact_us/contact_us.dart';
+import '../health_wellness/health_wellness.dart';
+import '../histroy/history_page.dart';
+import '../hostels/explore_page.dart';
+import '../job_searching/job_searching.dart';
+import '../membership/membership.dart';
+import '../scholarships/scholarship.dart';
+import '../schemes/SchemesPage.dart';
+import '../schemes/localization.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String selectedLanguage = "English";
+
+  void setLanguage(String lang) {
+    setState(() {
+      selectedLanguage = lang;
+    });
+  }
+
+  final List<Map<String, dynamic>> modules = [
+    {'title': 'Our history', 'icon': Icons.info_outline},
+    {'title': 'Membership', 'icon': Icons.person_add},
+    {'title': 'Job Searching', 'icon': Icons.work_outline},
+    {'title': 'Scholarships', 'icon': Icons.school},
+    {'title': 'Hostel Details', 'icon': Icons.house},
+    {'title': 'Contact Us', 'icon': Icons.email},
+    {'title': 'Notifications', 'icon': Icons.notifications},
+    {'title': 'Health & Wellness', 'icon': Icons.health_and_safety},
+    {'title': 'Schemes', 'icon': Icons.article},
+    {'title': 'Community Initiatives', 'icon': Icons.groups},
+  ];
+
+  final List<String> mediaItems = [
+    "https://via.placeholder.com/400x200.png?text=Image+1",
+    "https://via.placeholder.com/400x200.png?text=Image+2",
+    "https://via.placeholder.com/400x200.png?text=Video+1",
+  ];
+
+  int currentIndex = 0;
+
+  void _nextMedia() {
+    setState(() {
+      currentIndex = (currentIndex + 1) % mediaItems.length;
+    });
+  }
+
+  void _previousMedia() {
+    setState(() {
+      currentIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String currentTitle =
+    localizedStrings[selectedLanguage]!['appTitle']!;
+
+    return Scaffold(
+      backgroundColor: Colors.grey.shade100,
+      appBar: AppBar(
+        title: Text(currentTitle),
+        backgroundColor: Colors.deepPurple,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.language),
+            onPressed: () {
+              _showLanguageSelector(context);
+            },
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // 🔹 Media carousel
+              Container(
+                height: 200,
+                margin: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.deepPurple.shade50,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(
+                        mediaItems[currentIndex],
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back_ios,
+                            color: Colors.white),
+                        onPressed: _previousMedia,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_forward_ios,
+                            color: Colors.white),
+                        onPressed: _nextMedia,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // 🔹 Grid modules
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 14,
+                    mainAxisSpacing: 14,
+                    childAspectRatio: 1.2,
+                  ),
+                  itemCount: modules.length,
+                  itemBuilder: (context, index) {
+                    final colors = [
+                      [Colors.blue.shade400, Colors.blue.shade700],
+                      [Colors.teal.shade400, Colors.teal.shade700],
+                      [Colors.deepPurple.shade400, Colors.deepPurple.shade700],
+                      [Colors.green.shade400, Colors.green.shade700],
+                      [Colors.orange.shade400, Colors.orange.shade700],
+                    ];
+                    final gradient = colors[index % colors.length];
+
+                    return ModuleCard(
+                      title: modules[index]['title'],
+                      icon: modules[index]['icon'],
+                      gradient: gradient,
+                      selectedLanguage: selectedLanguage,
+                      setLanguage: setLanguage,
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.deepPurple,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white60,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications),
+            label: 'Alerts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: 'Profile',
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showLanguageSelector(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(16),
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.language),
+              title: const Text("English"),
+              onTap: () {
+                setLanguage("English");
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.language),
+              title: const Text("ಕನ್ನಡ (Kannada)"),
+              onTap: () {
+                setLanguage("Kannada");
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ModuleCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final List<Color> gradient;
+  final String selectedLanguage;
+  final Function(String) setLanguage;
+
+  const ModuleCard({
+    Key? key,
+    required this.title,
+    required this.icon,
+    required this.gradient,
+    required this.selectedLanguage,
+    required this.setLanguage,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (title == "Scholarships") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ScholarshipPage()),
+          );
+        } else if (title == "Our history") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  HistoryPage(language: selectedLanguage),
+            ),
+          );
+        } else if (title == "Job Searching") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => JobSeekerWizard()),
+          );
+        } else if (title == "Hostel Details") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ExplorePage()),
+          );
+        } else if (title == "Schemes") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  SchemesPage(selectedLanguage: selectedLanguage),
+            ),
+          );
+        }
+        else if (title == "Contact Us") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ContactUsPage()),
+          );
+        } else if (title == "Health & Wellness") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const HealthWellnessPage()),
+          );
+        } else if (title == "Membership") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MembershipPage()),
+          );
+        }
+
+        else if (title == "Community Initiatives") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CommunityInitiativesScreen(
+                selectedLanguage: selectedLanguage,
+                setLanguage: setLanguage,
+              ),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Opening $title...')),
+          );
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: gradient,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(18),
+          boxShadow: [
+            BoxShadow(
+              color: gradient.last.withOpacity(0.4),
+              blurRadius: 10,
+              spreadRadius: 2,
+              offset: const Offset(3, 5),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 36, color: Colors.white),
+            const SizedBox(height: 10),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
       ),
     );
