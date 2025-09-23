@@ -1884,7 +1884,7 @@ class ModuleCard extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (context) => const HealthWellnessPage()),
           );
-        } else if (title == "Membership") {
+        } else if (title == "Membership.") {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const MembershipPage()),
