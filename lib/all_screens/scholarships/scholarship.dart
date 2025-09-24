@@ -1268,7 +1268,7 @@ class _ScholarshipPageState extends State<ScholarshipPage> {
                                     builder: (_) => ScholarshipApplyPage(
                                       scholarshipName: item['name'],
                                       eligibility: item['eligibility'] ?? "Not specified",
-                                      startDate: item['startDate'] ?? "Not specified",
+                                      startDate: item['startDate'] ?? "Not  specified",
                                       endDate: item['deadline'],
                                       documents: List<String>.from(item['documents'] ?? []),
                                       howToApply: item['howToApply'] ?? "Check official portal",
