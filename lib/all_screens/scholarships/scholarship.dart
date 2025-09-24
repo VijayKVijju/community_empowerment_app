@@ -1160,7 +1160,7 @@ class _ScholarshipPageState extends State<ScholarshipPage> {
             // 🔽 Gender Dropdown
             DropdownButtonFormField<String>(
               value: 'Gender',
-              items: ['Gender', 'Male', 'Female', 'Other']
+              items: ['Gender ', 'Male', 'Female', 'Other']
                   .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                   .toList(),
               onChanged: (val) {},
