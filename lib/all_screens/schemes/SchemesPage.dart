@@ -21,7 +21,8 @@ final List<Map<String, dynamic>> allSchemes = [
     'type': 'State Govt',
     'year': '2023',
     'started': '14 July 2014',
-    'benefits': 'ಬರ ಪೀಡಿತ ಪ್ರದೇಶಗಳ ರೈತರಿಗೆ ಮಳೆಯ ನೀರು ಸಂಗ್ರಹಣೆಗೆ ಸಹಾಯ.',
+    'benefits':
+    'ಬರ ಪೀಡಿತ ಪ್ರದೇಶಗಳ ರೈತರಿಗೆ ಮಳೆಯ ನೀರು ಸಂಗ್ರಹಣೆಗೆ ಸಹಾಯ.',
     'eligible': 'ಕರ್ನಾಟಕದ ರೈತರು.',
     'language': 'Kannada'
   },
@@ -85,28 +86,17 @@ class _SchemesPageState extends State<SchemesPage> {
   String? selectedSector;
   String? selectedYear;
 
-  List<String> schemeTypes = [
-    'Central Govt',
-    'State Govt',
-    'Private Schems',
-  ];
-  List<String> sectors = [
-    'Agriculture',
-    'Business',
-    'Startups',
-    'Women\'s Schemes'
-  ];
+  List<String> schemeTypes = ['Central Govt', 'State Govt', 'Private Schemes'];
+  List<String> sectors = ['Agriculture', 'Business', 'Startups', 'Women\'s Schemes'];
   List<String> years = ['2023', '2024', '2025', 'Upcoming Schemes'];
 
   List<Map<String, dynamic>> get filteredSchemes {
     return allSchemes.where((scheme) {
       final matchesLanguage = scheme['language'] == widget.selectedLanguage;
-      final matchesType =
-          selectedType == null || scheme['type'] == selectedType;
+      final matchesType = selectedType == null || scheme['type'] == selectedType;
       final matchesSector =
           selectedSector == null || scheme['sector'] == selectedSector;
-      final matchesYear =
-          selectedYear == null || scheme['year'] == selectedYear;
+      final matchesYear = selectedYear == null || scheme['year'] == selectedYear;
       return matchesLanguage && matchesType && matchesSector && matchesYear;
     }).toList();
   }
@@ -114,12 +104,12 @@ class _SchemesPageState extends State<SchemesPage> {
   @override
   Widget build(BuildContext context) {
     final Map<String, String> translations =
-    localizedStrings[widget.selectedLanguage]!;
+        localizedStrings[widget.selectedLanguage] ?? localizedStrings['English']!;
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        title: Text(translations['schemesTitle']!),
+        title: Text(translations['schemesTitle'] ?? 'Schemes'),
         backgroundColor: Colors.deepPurple,
       ),
       body: SingleChildScrollView(
@@ -129,36 +119,24 @@ class _SchemesPageState extends State<SchemesPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _buildDropdown(
-                label: translations['schemeType']!,
+                label: translations['schemeType'] ?? 'Scheme Type',
                 value: selectedType,
                 items: schemeTypes,
-                onChanged: (value) {
-                  setState(() {
-                    selectedType = value;
-                  });
-                },
+                onChanged: (value) => setState(() => selectedType = value),
               ),
               const SizedBox(height: 16),
               _buildDropdown(
-                label: translations['sector']!,
+                label: translations['sector'] ?? 'Sector',
                 value: selectedSector,
                 items: sectors,
-                onChanged: (value) {
-                  setState(() {
-                    selectedSector = value;
-                  });
-                },
+                onChanged: (value) => setState(() => selectedSector = value),
               ),
               const SizedBox(height: 16),
               _buildDropdown(
-                label: translations['year']!,
+                label: translations['year'] ?? 'Year',
                 value: selectedYear,
                 items: years,
-                onChanged: (value) {
-                  setState(() {
-                    selectedYear = value;
-                  });
-                },
+                onChanged: (value) => setState(() => selectedYear = value),
               ),
               const SizedBox(height: 24),
               ...filteredSchemes.map((scheme) {
@@ -170,9 +148,8 @@ class _SchemesPageState extends State<SchemesPage> {
               if (filteredSchemes.isEmpty)
                 Center(
                   child: Text(
-                    translations['noSchemes']!,
-                    style: const TextStyle(
-                        fontSize: 16, color: Colors.grey, height: 2),
+                    translations['noSchemes'] ?? 'No schemes found.',
+                    style: const TextStyle(fontSize: 16, color: Colors.grey, height: 2),
                   ),
                 ),
             ],
@@ -188,6 +165,9 @@ class _SchemesPageState extends State<SchemesPage> {
     required List<String> items,
     required Function(String?) onChanged,
   }) {
+    final Map<String, String> translations =
+        localizedStrings[widget.selectedLanguage] ?? localizedStrings['English']!;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
@@ -205,22 +185,18 @@ class _SchemesPageState extends State<SchemesPage> {
         child: DropdownButton<String>(
           isExpanded: true,
           value: value,
-          hint: Text(
-            label,
-            style: const TextStyle(color: Colors.deepPurple),
-          ),
-          icon: const Icon(Icons.arrow_drop_down, color: Colors.deepPurple),
+          hint: Text(label, style: const TextStyle(color: Colors.deepPurple)),
           items: [
             DropdownMenuItem<String>(
               value: null,
-              child: Text('All $label'),
+              child: Text('${translations['allOption'] ?? 'All'} $label'),
             ),
-            ...items.map((String item) {
-              return DropdownMenuItem<String>(
+            ...items.map(
+                  (item) => DropdownMenuItem<String>(
                 value: item,
                 child: Text(item),
-              );
-            }),
+              ),
+            ),
           ],
           onChanged: onChanged,
         ),
@@ -233,16 +209,13 @@ class SchemeCard extends StatelessWidget {
   final Map<String, dynamic> scheme;
   final String selectedLanguage;
 
-  const SchemeCard({
-    Key? key,
-    required this.scheme,
-    required this.selectedLanguage,
-  }) : super(key: key);
+  const SchemeCard({Key? key, required this.scheme, required this.selectedLanguage})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final Map<String, String> translations =
-    localizedStrings[selectedLanguage]!;
+        localizedStrings[selectedLanguage] ?? localizedStrings['English']!;
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -254,16 +227,13 @@ class SchemeCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              scheme['name']!,
+              scheme['name'] ?? 'N/A',
               style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.deepPurple,
-              ),
+                  fontSize: 18, fontWeight: FontWeight.bold, color: Colors.deepPurple),
             ),
             const SizedBox(height: 8),
             Text(
-              '${translations['sectorLabel']!}: ${scheme['sector']!}',
+              '${translations['sectorLabel'] ?? 'Sector'}: ${scheme['sector'] ?? 'N/A'}',
               style: const TextStyle(fontSize: 14, color: Colors.grey),
             ),
             const SizedBox(height: 16),
@@ -288,7 +258,7 @@ class SchemeCard extends StatelessWidget {
                   ),
                 ),
                 icon: const Icon(Icons.search, size: 18),
-                label: Text(translations['explore']!),
+                label: Text(translations['explore'] ?? 'Explore'),
               ),
             ),
           ],

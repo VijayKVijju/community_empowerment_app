@@ -14,21 +14,22 @@ class SchemeDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, String> translations =
-    localizedStrings[selectedLanguage]!;
+        localizedStrings[selectedLanguage] ?? localizedStrings['English']!;
+
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        title: Text(translations['detailsTitle']!),
+        title: Text(translations['detailsTitle'] ?? 'Scheme Details'),
         backgroundColor: Colors.deepPurple,
         actions: [
           IconButton(
             icon: const Icon(Icons.share),
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content: Text(
-                        '${translations['share']!} ${scheme['name']!}')),
-              );
+              final schemeName = scheme['name'] ?? 'Unknown Scheme';
+              final shareText = '${translations['share'] ?? 'Share'} $schemeName';
+
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(shareText)));
             },
           ),
         ],
@@ -40,40 +41,35 @@ class SchemeDetailsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildDetailCard(
-                context,
-                title: translations['schemeName']!,
-                content: scheme['name']!,
+                title: translations['schemeName'] ?? 'Scheme Name',
+                content: scheme['name'] ?? 'N/A',
               ),
               _buildDetailCard(
-                context,
-                title: translations['sectorLabel']!,
-                content: scheme['sector']!,
+                title: translations['sectorLabel'] ?? 'Sector',
+                content: scheme['sector'] ?? 'N/A',
               ),
               _buildDetailCard(
-                context,
-                title: translations['startDate']!,
-                content: scheme['started']!,
+                title: translations['startDate'] ?? 'Start Date',
+                content: scheme['started'] ?? 'N/A',
               ),
               _buildDetailCard(
-                context,
-                title: translations['benefits']!,
-                content: scheme['benefits']!,
+                title: translations['benefits'] ?? 'Benefits',
+                content: scheme['benefits'] ?? 'N/A',
               ),
               _buildDetailCard(
-                context,
-                title: translations['eligibility']!,
-                content: scheme['eligible']!,
+                title: translations['eligibility'] ?? 'Eligibility',
+                content: scheme['eligible'] ?? 'N/A',
               ),
               const SizedBox(height: 24),
               Center(
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    // This can be a link to a website or an internal page
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content: Text(
-                              '${translations['moreDetails']!} for ${scheme['name']!}...')),
-                    );
+                    final schemeName = scheme['name'] ?? 'Scheme';
+                    final message =
+                        '${translations['moreDetails'] ?? 'More details'} for $schemeName...';
+
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(message)));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple.shade700,
@@ -84,7 +80,7 @@ class SchemeDetailsPage extends StatelessWidget {
                     ),
                   ),
                   icon: const Icon(Icons.open_in_new, size: 20),
-                  label: Text(translations['moreDetails']!),
+                  label: Text(translations['moreDetails'] ?? 'More Details'),
                 ),
               ),
             ],
@@ -94,8 +90,7 @@ class SchemeDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailCard(BuildContext context,
-      {required String title, required String content}) {
+  Widget _buildDetailCard({required String title, required String content}) {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 16),
@@ -114,19 +109,11 @@ class SchemeDetailsPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.deepPurple,
-            ),
-          ),
+          Text(title,
+              style: const TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
           const SizedBox(height: 8),
-          Text(
-            content,
-            style: const TextStyle(fontSize: 14, color: Colors.black87),
-          ),
+          Text(content, style: const TextStyle(fontSize: 14, color: Colors.black87)),
         ],
       ),
     );

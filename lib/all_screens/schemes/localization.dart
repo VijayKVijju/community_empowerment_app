@@ -17,6 +17,7 @@ const Map<String, Map<String, String>> localizedStrings = {
     'moreDetails': 'More Details',
     'share': 'Share',
     'noSchemes': 'No schemes found.',
+    'allOption': 'All', // for dropdown
   },
   'Kannada': {
     'appTitle': 'ಸಮುದಾಯ ಸಬಲೀಕರಣ',
@@ -35,5 +36,6 @@ const Map<String, Map<String, String>> localizedStrings = {
     'moreDetails': 'ಹೆಚ್ಚಿನ ವಿವರಗಳು',
     'share': 'ಹಂಚಿಕೊಳ್ಳಿ',
     'noSchemes': 'ಯಾವುದೇ ಯೋಜನೆಗಳು ಕಂಡುಬಂದಿಲ್ಲ.',
+    'allOption': 'ಎಲ್ಲ', // for dropdown
   },
 };

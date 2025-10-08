@@ -28,26 +28,21 @@ class CommunityEmpowermentApp extends StatelessWidget {
 
  */
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'all_screens/home/home.dart';
 
-void main() => runApp(CommunityEmpowermentApp());
-
-class CommunityEmpowermentApp extends StatefulWidget {
-  const CommunityEmpowermentApp({super.key});
-
-  @override
-  State<CommunityEmpowermentApp> createState() => _CommunityEmpowermentAppState();
+void main() {
+  // ✅ Wrap the entire app with ProviderScope for Riverpod
+  runApp(
+    const ProviderScope(
+      child: CommunityEmpowermentApp(),
+    ),
+  );
 }
 
-class _CommunityEmpowermentAppState extends State<CommunityEmpowermentApp> {
-  String _selectedLanguage = 'English';
-
-  void _setLanguage(String language) {
-    setState(() {
-      _selectedLanguage = language;
-    });
-  }
+class CommunityEmpowermentApp extends StatelessWidget {
+  const CommunityEmpowermentApp({super.key});
 
   @override
   Widget build(BuildContext context) {

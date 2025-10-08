@@ -10,42 +10,63 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # 🍏 iOS-style icons
   cupertino_icons: ^1.0.8
 
   # 📤 Sharing content
   share_plus: ^10.0.0
 
-  # 📸 For picking profile photo from camera/gallery
+  # 📸 Image picking for profile pictures or uploads
   image_picker: ^1.1.2
 
-  # 🗺️ Google Maps support
+  # 🗺️ Google Maps integration
   google_maps_flutter: ^2.5.0
 
-  # 🎞️ For hostel video playback
+  # 🎞️ Video playback (local videos or hosted URLs)
   video_player: ^2.8.3
 
-  # 📷 For hostel image carousel (swipe left-right)
+  # 🖼️ Image slider for hostel/media galleries
   carousel_slider: ^5.0.0
 
-  # 🔽 Beautiful searchable dropdown for Karnataka districts
-  dropdown_search: ^6.0.1
+  # 🔽 Searchable dropdowns (Karnataka districts, degrees, etc.)
+  dropdown_search: ^6.0.2
 
-  # 🌍 For launching maps, calls, websites
+  # 🌍 Open links, maps, and calls
   url_launcher: ^6.3.1
 
-  # 🕒 Date/Time formatting for initiatives
+  # 🕒 Date/Time formatting
   intl: ^0.19.0
 
-  # 🔔 Local notifications (for reminders 2 days before event)
+  # 🔔 Local notifications
   flutter_local_notifications: ^17.2.2
 
-  # 📦 State management
-  provider: ^6.0.5
+  # 🧠 State management (Riverpod)
+  flutter_riverpod: ^2.5.1
+
+  # 🔤 Google Fonts
+  google_fonts: ^6.2.1
+
+  # 🌐 HTTP for APIs (e.g., translations)
+  http: ^1.2.2
+
+  # 🧭 Provider (for language management fallback)
+  provider: ^6.1.2
+
+  # 🔍 Zoomable images (for certificates/media)
+  photo_view: ^0.15.0
+
+  # ▶️ YouTube video player (for embedded videos)
+  youtube_player_flutter: ^9.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
   flutter_lints: ^5.0.0
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/
